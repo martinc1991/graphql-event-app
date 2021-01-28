@@ -1,0 +1,8 @@
+{
+	"env": {
+		"MONGO_USER": "martincatala14",
+		"MONGO_PASSWORD": "martincatala14",
+		"MONGO_DBNAME": "graphql-event-app",
+		"PORT": 8000
+	}
+}
