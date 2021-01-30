@@ -15,6 +15,7 @@ module.exports = {
 		}
 	},
 	createEvent: async (args, req) => {
+		// Protects this resolver from unauthenticated requests (check middlewares/is-auth.js)
 		if (!req.isAuth) {
 			throw new Error('Unauthenticated!');
 		}

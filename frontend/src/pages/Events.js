@@ -32,6 +32,7 @@ export default class EventsPage extends Component {
 	startCreateEventHandler = () => {
 		this.setState({ creating: true });
 	};
+
 	modalConfirmHandler = () => {
 		this.setState({ creating: false });
 		const title = this.titleElRef.current.value;
@@ -42,8 +43,6 @@ export default class EventsPage extends Component {
 		if (title.trim().length === 0 || price <= 0 || date.trim().length === 0 || description.trim().length === 0) {
 			return;
 		}
-
-		// const event = { title, price: price, date, description };
 
 		const requestBody = {
 			query: `
