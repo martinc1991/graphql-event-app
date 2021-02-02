@@ -15,6 +15,7 @@ type Event {
   price: Float!
   date: String!
   creator: User!
+  image: String
 }
 type User {
   _id: ID!
@@ -32,6 +33,7 @@ input EventInput {
   description: String!
   price: Float!
   date: String!
+  image: String
 }
 input UserInput {
   email: String!
