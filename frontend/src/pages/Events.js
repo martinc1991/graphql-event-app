@@ -5,6 +5,9 @@ import './Events.css';
 import AuthContext from '../context/auth-context';
 import EventList from '../components/Events/EventsList/EventList';
 import Spinner from '../components/Spinner/Spinner';
+import axios from 'axios';
+// Cloudinary
+import { Image, Transformation, CloudinaryContext, Placeholder } from 'cloudinary-react';
 
 export default class EventsPage extends Component {
 	state = {
@@ -12,6 +15,7 @@ export default class EventsPage extends Component {
 		events: [],
 		isLoading: false,
 		selectedEvent: null,
+		file: null,
 	};
 
 	isActive = true;
@@ -23,6 +27,7 @@ export default class EventsPage extends Component {
 		this.priceElRef = React.createRef();
 		this.dateElRef = React.createRef();
 		this.descriptionElRef = React.createRef();
+		this.imageElRef = React.createRef();
 	}
 
 	componentDidMount() {
@@ -33,12 +38,84 @@ export default class EventsPage extends Component {
 		this.setState({ creating: true });
 	};
 
-	modalConfirmHandler = () => {
+	// Upload image handler
+	onChangeFile = (e) => {
+		this.setState({ file: e.target.files[0] });
+	};
+
+	onFormSubmit = (e) => {
+		e.preventDefault();
+
+		const title = this.titleElRef.current.value;
+		const price = +this.priceElRef.current.value;
+		const date = this.dateElRef.current.value;
+		const description = this.descriptionElRef.current.value;
+
+		const formData = new FormData();
+
+		const token = this.context.token;
+
+		formData.append('eventImage', this.state.file);
+		formData.append('title', title);
+		formData.append('description', description);
+		formData.append('price', price);
+		formData.append('date', date);
+		formData.append('token', 'Bearer ' + token);
+
+		const config = {
+			headers: {
+				'content-type': 'multipart/form-data',
+				Authorization: 'Bearer ' + token,
+			},
+		};
+
+		axios
+			.post('http://localhost:8000/graphql', formData, config)
+			.then((res) => {
+				if (res.status !== 200 && res.status !== 201) {
+					throw new Error('Failed with status: ' + res.status);
+				}
+				return res.data.data.createEvent;
+			})
+			.then((resData) => {
+				this.setState((prevState) => {
+					const updatedEvents = [...prevState.events];
+					updatedEvents.push({
+						_id: resData._id,
+						title: resData.title,
+						description: resData.description,
+						date: resData.date,
+						price: resData.price,
+						image: resData.image,
+						creator: {
+							_id: this.context.userId,
+						},
+					});
+					return { events: updatedEvents }; // this semicolon is SUPER important
+				});
+
+				alert('Event created successfully!');
+
+				this.setState({ creating: false });
+			})
+			.catch((err) => {
+				console.log('CATCH DEL FRONT');
+				console.log(err);
+			});
+	};
+
+	// Format submit handler
+	modalConfirmHandler = (e) => {
+		e.preventDefault();
+
 		this.setState({ creating: false });
 		const title = this.titleElRef.current.value;
 		const price = +this.priceElRef.current.value;
 		const date = this.dateElRef.current.value;
 		const description = this.descriptionElRef.current.value;
+		// const image = this.state.file;
+
+		const formData = new FormData();
 
 		if (title.trim().length === 0 || price <= 0 || date.trim().length === 0 || description.trim().length === 0) {
 			return;
@@ -63,6 +140,10 @@ export default class EventsPage extends Component {
 				dateParameter: date,
 			},
 		};
+
+		formData.append('eventImage', this.state.file);
+
+		formData.append('body', requestBody);
 
 		const token = this.context.token;
 
@@ -97,6 +178,7 @@ export default class EventsPage extends Component {
 				});
 			})
 			.catch((err) => {
+				console.log('CATCH DEL FRONT');
 				console.log(err);
 			});
 	};
@@ -113,7 +195,8 @@ export default class EventsPage extends Component {
               _id
               title
               description
-              date
+							date
+							image
               price
               creator {
                 _id
@@ -210,9 +293,10 @@ export default class EventsPage extends Component {
 			<React.Fragment>
 				{(this.state.creating || this.state.selectedEvent) && <Backdrop />}
 				{this.state.creating && (
-					<Modal title='Add Event' canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.modalConfirmHandler}>
-						<p>Modal Content</p>
-						<form action=''>
+					<Modal title='Add Event' canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.onFormSubmit}>
+						{/* <Modal title='Add Event' canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.modalConfirmHandler}> */}
+						{/* Modal Content */}
+						<form action='' encType='multipart/form-data'>
 							<div className='form-control'>
 								<label htmlFor='title'>Title</label>
 								<input type='text' name='title' id='title' ref={this.titleElRef} />
@@ -229,6 +313,15 @@ export default class EventsPage extends Component {
 								<label htmlFor='description'>Description</label>
 								<textarea name='description' id='description' rows='4' ref={this.descriptionElRef} />
 							</div>
+							<div className='form-control'>
+								<label htmlFor='description'>Image</label>
+								<input
+									type='file'
+									name='eventImage'
+									onChange={this.onChangeFile}
+									// ref={this.imageElRef}
+								/>
+							</div>
 						</form>
 					</Modal>
 				)}
@@ -239,6 +332,9 @@ export default class EventsPage extends Component {
 							${Number.parseFloat(this.state.selectedEvent.price).toFixed(2)} - {new Date(this.state.selectedEvent.date).toLocaleDateString()}
 						</h2>
 						<p>{this.state.selectedEvent.description}</p>
+						<Image cloudName='graphql-events-app' publicId={this.state.selectedEvent.image} width='400'>
+							<Placeholder type='pixelate' />
+						</Image>
 					</Modal>
 				)}
 				{this.context.token && (
@@ -261,3 +357,4 @@ export default class EventsPage extends Component {
 		);
 	}
 }
+// https://res.cloudinary.com/<cloud_name>/<asset_type>/<delivery_type>/<transformations>/<version>/<public_id>.<extension>

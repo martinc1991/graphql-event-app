@@ -1,5 +1,7 @@
 .modal {
 	width: 90%;
+	max-height: 70vh;
+	overflow: scroll;
 	background-color: white;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 	position: fixed;

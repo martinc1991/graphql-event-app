@@ -7,7 +7,7 @@ export default function EventItem(props) {
 			<div>
 				<h1>{props.title}</h1>
 				<h2>
-					${Number.parseFloat(props.price).toFixed(2)} - {new Date(props.date).toLocaleDateString()}
+					${Number.parseFloat(props.price).toFixed(2)} - {new Date(props.date).toLocaleDateString()} - Image: {props.image ? 'true' : 'false'}
 				</h2>
 			</div>
 			<div>
