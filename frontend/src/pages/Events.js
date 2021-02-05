@@ -6,6 +6,8 @@ import AuthContext from '../context/auth-context';
 import EventList from '../components/Events/EventsList/EventList';
 import Spinner from '../components/Spinner/Spinner';
 import axios from 'axios';
+// Cloudinary
+import { Image, Transformation, CloudinaryContext, Placeholder } from 'cloudinary-react';
 
 export default class EventsPage extends Component {
 	state = {
@@ -73,11 +75,9 @@ export default class EventsPage extends Component {
 				if (res.status !== 200 && res.status !== 201) {
 					throw new Error('Failed with status: ' + res.status);
 				}
-				console.log(res.data.data.createEvent);
 				return res.data.data.createEvent;
 			})
 			.then((resData) => {
-				console.log('RESDATA', resData);
 				this.setState((prevState) => {
 					const updatedEvents = [...prevState.events];
 					updatedEvents.push({
@@ -332,7 +332,9 @@ export default class EventsPage extends Component {
 							${Number.parseFloat(this.state.selectedEvent.price).toFixed(2)} - {new Date(this.state.selectedEvent.date).toLocaleDateString()}
 						</h2>
 						<p>{this.state.selectedEvent.description}</p>
-						<img src={this.state.selectedEvent.image} width='400' alt='' />
+						<Image cloudName='graphql-events-app' publicId={this.state.selectedEvent.image} width='400'>
+							<Placeholder type='pixelate' />
+						</Image>
 					</Modal>
 				)}
 				{this.context.token && (
@@ -351,8 +353,6 @@ export default class EventsPage extends Component {
 						<EventList events={this.state.events} authUserId={this.context.userId} onViewDetails={this.showDetailHandler} />
 					</div>
 				)}
-
-				{/* <img src='https://res.cloudinary.com/graphql-events-app/image/upload/w_400/graphql-events-app/event-test_vunyr9.jpg' alt='' /> */}
 			</React.Fragment>
 		);
 	}

@@ -44,6 +44,8 @@ module.exports = async (req, res, next) => {
 			console.log('multer middleware CATCH', error);
 		}
 
+		console.log('UPLOADED IMAGE: ', uploadedImage);
+
 		// Remove image from upload folder
 		fs.rm(__dirname + '/uploads/' + filesRead[0], (error) => {
 			if (error) {
@@ -70,7 +72,7 @@ module.exports = async (req, res, next) => {
 				descriptionParameter: description,
 				priceParameter: +price,
 				dateParameter: date,
-				imageParameter: uploadedImage.secure_url,
+				imageParameter: uploadedImage.public_id,
 			},
 		};
 
