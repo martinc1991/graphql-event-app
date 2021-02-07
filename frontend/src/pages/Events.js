@@ -348,7 +348,7 @@ export default class EventsPage extends Component {
 				{this.state.isLoading ? (
 					<Spinner />
 				) : (
-					<div>
+					<div className='root'>
 						<h1>Events</h1>
 						<EventList events={this.state.events} authUserId={this.context.userId} onViewDetails={this.showDetailHandler} />
 					</div>
