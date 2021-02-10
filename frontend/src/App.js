@@ -8,7 +8,10 @@ import MainNavigation from './components/Navigation/MainNavigation';
 import AuthContext from './context/auth-context.js';
 import './App.css';
 import { Component } from 'react';
+// Material UI
 import { makeStyles } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
+import theme from './theme/theme';
 
 class App extends Component {
 	state = {
@@ -33,23 +36,25 @@ class App extends Component {
 						logout: this.logout,
 					}}
 				>
-					<main className='main-content'>
-						<MainNavigation />
-						<Switch>
-							{/* If there's no user logged in */}
-							<Route path='/' component={HomePage} exact />
-							{/* {!this.state.token && <Redirect from='/' to='/events' exact />} */}
-							{!this.state.token && <Redirect from='/bookings' to='/auth' exact />}
-							{!this.state.token && <Route path='/auth' component={AuthPage} />}
+					<ThemeProvider theme={theme}>
+						<main className='main-content'>
+							<MainNavigation />
+							<Switch>
+								{/* If there's no user logged in */}
+								<Route path='/' component={HomePage} exact />
+								{/* {!this.state.token && <Redirect from='/' to='/events' exact />} */}
+								{!this.state.token && <Redirect from='/bookings' to='/auth' exact />}
+								{!this.state.token && <Route path='/auth' component={AuthPage} />}
 
-							{/* If there's a user logged in */}
-							{/* {this.state.token && <Redirect from='/' to='/events' exact />} */}
-							{this.state.token && <Redirect from='/auth' to='/events' exact />}
-							<Route path='/events' component={EventsPage} />
-							{this.state.token && <Route path='/bookings' component={BookingsPage} />}
-							{!this.state.token && <Redirect to='/auth' exact />}
-						</Switch>
-					</main>
+								{/* If there's a user logged in */}
+								{/* {this.state.token && <Redirect from='/' to='/events' exact />} */}
+								{this.state.token && <Redirect from='/auth' to='/events' exact />}
+								<Route path='/events' component={EventsPage} />
+								{this.state.token && <Route path='/bookings' component={BookingsPage} />}
+								{!this.state.token && <Redirect to='/auth' exact />}
+							</Switch>
+						</main>
+					</ThemeProvider>
 				</AuthContext.Provider>
 			</BrowserRouter>
 		);

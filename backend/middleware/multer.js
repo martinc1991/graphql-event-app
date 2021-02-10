@@ -72,7 +72,7 @@ module.exports = async (req, res, next) => {
 				descriptionParameter: description,
 				priceParameter: +price,
 				dateParameter: date,
-				imageParameter: uploadedImage.public_id,
+				imageParameter: uploadedImage.secure_url,
 			},
 		};
 

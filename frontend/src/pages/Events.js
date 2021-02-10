@@ -8,6 +8,10 @@ import Spinner from '../components/Spinner/Spinner';
 import axios from 'axios';
 // Cloudinary
 import { Image, Transformation, CloudinaryContext, Placeholder } from 'cloudinary-react';
+// Material UI
+import TextField from '@material-ui/core/TextField';
+import { Typography } from '@material-ui/core';
+import TextInput from '../components/inputs/TextInput';
 
 export default class EventsPage extends Component {
 	state = {
@@ -16,6 +20,9 @@ export default class EventsPage extends Component {
 		isLoading: false,
 		selectedEvent: null,
 		file: null,
+		// Event filtering
+		search: '',
+		filteredEvents: [],
 	};
 
 	isActive = true;
@@ -78,6 +85,8 @@ export default class EventsPage extends Component {
 				return res.data.data.createEvent;
 			})
 			.then((resData) => {
+				console.log('RESDATA: ', resData);
+				console.log('BEFORE', this.state.events);
 				this.setState((prevState) => {
 					const updatedEvents = [...prevState.events];
 					updatedEvents.push({
@@ -91,8 +100,10 @@ export default class EventsPage extends Component {
 							_id: this.context.userId,
 						},
 					});
-					return { events: updatedEvents }; // this semicolon is SUPER important
+					return { events: updatedEvents, filteredEvents: updatedEvents }; // this semicolon is SUPER important
 				});
+
+				console.log('AFTER', this.state.events);
 
 				alert('Event created successfully!');
 
@@ -223,7 +234,7 @@ export default class EventsPage extends Component {
 			.then((resData) => {
 				const events = resData.data.events;
 				if (this.isActive) {
-					this.setState({ events: events, isLoading: false });
+					this.setState({ events: events, filteredEvents: events, isLoading: false });
 				}
 			})
 			.catch((err) => {
@@ -288,6 +299,21 @@ export default class EventsPage extends Component {
 		this.isActive = false;
 	}
 
+	filterHandler = (e) => {
+		this.setState({ search: e.target.value.trim() });
+
+		// If the TextInput filter is empty, set filteredEvents equal to events
+		if (!e.target.value) {
+			this.setState({ filteredEvents: this.state.events });
+		} else {
+			// Filtered events
+			let filteredEvents = this.state.events.filter((event) => {
+				return event.title.toLowerCase().includes(e.target.value.trim()) || event.description.toLowerCase().includes(e.target.value.trim());
+			});
+			this.setState({ filteredEvents: filteredEvents });
+		}
+	};
+
 	render() {
 		return (
 			<React.Fragment>
@@ -346,15 +372,31 @@ export default class EventsPage extends Component {
 					</div>
 				)}
 				{this.state.isLoading ? (
-					<Spinner />
+					<div className='root-only-spinner'>
+						<Spinner />
+					</div>
 				) : (
 					<div className='root'>
-						<h1>Events</h1>
-						<EventList events={this.state.events} authUserId={this.context.userId} onViewDetails={this.showDetailHandler} />
+						<div className='title-container'>
+							<div className='title'>
+								<Typography variant='h2' component='h2'>
+									Events
+								</Typography>
+							</div>
+							<Typography className='' variant='h6' component='p'>
+								<mark className='main-body'>
+									Feel free to <span className='mainBodySpan'> look up for the event you want</span> without having to sing up (you will have to sign up to book them although).
+								</mark>
+							</Typography>
+						</div>
+						<div className='filter-container'>
+							<TextInput id='outlined-basic' label='Filter events' variant='standard' size='small' color='primary' onChange={this.filterHandler} />
+						</div>
+						{/* EventList */}
+						{this.state.filteredEvents.length > 0 ? <EventList events={this.state.filteredEvents.length > 0 ? this.state.filteredEvents : []} authUserId={this.context.userId} onViewDetails={this.showDetailHandler} /> : <Typography variant='h4'>None of our events matches the filtered you entered</Typography>}
 					</div>
 				)}
 			</React.Fragment>
 		);
 	}
 }
-// https://res.cloudinary.com/<cloud_name>/<asset_type>/<delivery_type>/<transformations>/<version>/<public_id>.<extension>

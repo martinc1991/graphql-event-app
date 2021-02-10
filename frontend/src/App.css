@@ -11,9 +11,10 @@
 	min-height: 100vh;
 	background-image: url('../src/assets/bg1.jpg');
 	background-size: cover;
+	background-attachment: fixed;
 	display: flex;
 	flex-direction: column;
-	justify-content: start;
+	justify-content: flex-start;
 	align-items: center;
 	overflow-y: visible;
 }
