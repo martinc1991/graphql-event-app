@@ -1,20 +1,16 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
+import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import React from 'react';
+import DetailsModal from '../../Modals/DetailsModal/DetailsModal.js';
 import './EventItem.css';
 
 const imagePlaceholderUrl = 'https://res.cloudinary.com/graphql-events-app/image/upload/v1612888691/graphql-events-app/placeholder_bs9x8v.png';
@@ -29,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 	media: {
 		height: 0,
 		paddingTop: '56.25%', // 16:9
-		cursor: 'pointer',
+		// cursor: 'pointer',
 	},
 	descriptionContainer: {
 		height: '100px',
@@ -50,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
+		margin: '20px 0px',
 		// border: '1px solid red',
 	},
 	price: {
@@ -125,7 +122,7 @@ export default function EventItem(props) {
 					<Typography variant='caption' className={classes.dateCaption}>
 						{new Date(props.date).toLocaleDateString()}
 					</Typography>
-					<CardMedia className={classes.media} image={props.image ? props.image : imagePlaceholderUrl} title={props.title} onClick={props.onDetail.bind(this, props.eventId)} />
+					<CardMedia className={classes.media} image={props.image ? props.image : imagePlaceholderUrl} title={props.title} />
 				</div>
 				<CardContent className={classes.descriptionContainer}>
 					<Typography variant='body1' component='p'>
@@ -149,9 +146,10 @@ export default function EventItem(props) {
 					</div>
 					<div>
 						{/* More info link */}
-						<Typography className={classes.moreInfo} onClick={props.onDetail.bind(this, props.eventId)}>
+						{/* <Typography className={classes.moreInfo} onClick={props.onDetail.bind(this, props.eventId)}>
 							+ More info
-						</Typography>
+						</Typography> */}
+						<DetailsModal eventId={props.eventId} title={props.title} description={props.description} userId={props.userId} creatorId={props.creatorId} creatorEmail={props.creatorEmail} price={props.price} date={props.date} image={props.image}></DetailsModal>
 					</div>
 				</CardActions>
 			</Card>

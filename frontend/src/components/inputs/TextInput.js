@@ -9,7 +9,7 @@ const useStyles = makeStyles({
 		width: '100%',
 	},
 	input: {
-		color: 'black',
+		color: 'rgb(0,0,0)',
 		fontFamily: 'Lora',
 		textAlign: 'center',
 	},

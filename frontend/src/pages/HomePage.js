@@ -23,12 +23,12 @@ const useStyles = makeStyles({
 		alignItems: 'center',
 	},
 	mainTitle: {
-		color: 'black',
+		color: 'rgb(0,0,0)',
 		fontFamily: 'Hammersmith One',
 		fontSize: '4rem',
 	},
 	mainBody: {
-		color: 'black',
+		color: 'rgb(0,0,0)',
 		backgroundColor: 'white',
 		fontFamily: 'Lora',
 		fontSize: '1.5rem',

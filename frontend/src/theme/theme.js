@@ -14,8 +14,8 @@ const theme = createMuiTheme({
 		},
 		// TEXT COLORS
 		text: {
-			primary: 'black',
-			secondary: 'black',
+			primary: 'rgb(0,0,0)',
+			secondary: 'rgb(0,0,0)',
 			disabled: 'rgba(0, 0, 0, 0.38)',
 			hint: 'rgba(0, 0, 0, 0.38)',
 		},
@@ -47,7 +47,7 @@ const theme = createMuiTheme({
 		body1: {
 			fontFamily: 'Lora',
 			fontSize: '1rem',
-			color: 'black',
+			color: 'rgb(0,0,0)',
 		},
 		caption: {
 			fontFamily: 'Lora',

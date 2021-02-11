@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Modal from '../components/Modal/Modal';
+import Modal from '../components/Modals/Modal';
 import Backdrop from '../components/Backdrop/Backdrop.js';
 import './Events.css';
 import AuthContext from '../context/auth-context';
@@ -23,6 +23,7 @@ export default class EventsPage extends Component {
 		// Event filtering
 		search: '',
 		filteredEvents: [],
+		fileSelected: false,
 	};
 
 	isActive = true;
@@ -61,8 +62,12 @@ export default class EventsPage extends Component {
 		const formData = new FormData();
 
 		const token = this.context.token;
-
-		formData.append('eventImage', this.state.file);
+		console.log(this.state.file);
+		if (this.state.file) {
+			formData.append('eventImage', this.state.file);
+		} else {
+			formData.append('eventImage', 'No image');
+		}
 		formData.append('title', title);
 		formData.append('description', description);
 		formData.append('price', price);
@@ -193,6 +198,7 @@ export default class EventsPage extends Component {
 				console.log(err);
 			});
 	};
+
 	modalCancelHandler = () => {
 		this.setState({ creating: false, selectedEvent: null });
 	};
@@ -319,7 +325,7 @@ export default class EventsPage extends Component {
 			<React.Fragment>
 				{(this.state.creating || this.state.selectedEvent) && <Backdrop />}
 				{this.state.creating && (
-					<Modal title='Add Event' canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.onFormSubmit}>
+					<Modal title='Add Event' canCancel canConfirm={this.state.fileSelected} onCancel={this.modalCancelHandler} onConfirm={this.onFormSubmit}>
 						{/* <Modal title='Add Event' canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.modalConfirmHandler}> */}
 						{/* Modal Content */}
 						<form action='' encType='multipart/form-data'>
@@ -345,6 +351,8 @@ export default class EventsPage extends Component {
 									type='file'
 									name='eventImage'
 									onChange={this.onChangeFile}
+									accept='image/x-png,image/gif,image/jpeg'
+									onChange={(e) => this.setState({ fileSelected: !!e.target.value })}
 									// ref={this.imageElRef}
 								/>
 							</div>
@@ -393,7 +401,7 @@ export default class EventsPage extends Component {
 							<TextInput id='outlined-basic' label='Filter events' variant='standard' size='small' color='primary' onChange={this.filterHandler} />
 						</div>
 						{/* EventList */}
-						{this.state.filteredEvents.length > 0 ? <EventList events={this.state.filteredEvents.length > 0 ? this.state.filteredEvents : []} authUserId={this.context.userId} onViewDetails={this.showDetailHandler} /> : <Typography variant='h4'>None of our events matches the filtered you entered</Typography>}
+						{this.state.filteredEvents.length > 0 ? <EventList events={this.state.filteredEvents.length > 0 ? this.state.filteredEvents : []} authUserId={this.context.userId} onViewDetails={this.showDetailHandler} /> : <Typography variant='h4'>None of our events matches the filter you entered</Typography>}
 					</div>
 				)}
 			</React.Fragment>

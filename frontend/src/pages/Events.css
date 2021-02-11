@@ -1,16 +1,16 @@
 .root {
-	border: 2px solid white;
-	border-radius: 20px;
-	margin-top: 60px;
-	margin-bottom: 30px;
-	/* background-color: rgba(0, 0, 0, 0.5) !important; */
-	min-height: 85vh;
-	width: 90%;
-	max-width: 1400px;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
+	border: 2px solid white;
+	border-radius: 20px;
+	margin-top: 60px;
+	margin-bottom: 30px;
+	padding-bottom: 50px !important;
+	min-height: 85vh;
+	width: 90%;
+	max-width: 1400px;
 }
 
 .root-only-spinner {

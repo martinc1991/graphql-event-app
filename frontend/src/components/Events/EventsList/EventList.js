@@ -32,7 +32,7 @@ export default function EventList(props) {
 	});
 
 	return (
-		<Grid container spacing={3} justify='center' cellHeight={180} className={classes.gridContainer}>
+		<Grid container spacing={3} justify='center' className={classes.gridContainer}>
 			{events}
 		</Grid>
 	);
