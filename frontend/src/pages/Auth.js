@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import './Auth.css';
 import AuthContext from '../context/auth-context.js';
+import { Typography } from '@material-ui/core';
+import TextInput from '../components/inputs/TextInput';
+import CustomButton from '../components/CustomButton/CustomButton';
 
 export default class AuthPage extends Component {
 	state = {
 		isLogin: true,
+		email: '',
+		password: '',
 	};
 
 	static contextType = AuthContext;
@@ -23,10 +28,17 @@ export default class AuthPage extends Component {
 		});
 	};
 
+	inputChangeHandler = (e) => {
+		const inputType = e.target.type;
+		this.setState({ [inputType]: e.target.value });
+	};
+
 	submitHandler = (event) => {
 		event.preventDefault();
-		const email = this.emailEl.current.value;
-		const password = this.passwordEl.current.value;
+		// const email = this.emailEl.current.value;
+		// const password = this.passwordEl.current.value;
+		const email = this.state.email;
+		const password = this.state.password;
 		if (email.trim().length === 0 || password.trim().length === 0) {
 			return;
 		}
@@ -94,23 +106,40 @@ export default class AuthPage extends Component {
 
 	render() {
 		return (
-			<form className='auth-form' onSubmit={this.submitHandler}>
-				<h1>{!this.state.isLogin ? 'Sign Up' : 'Login'}</h1>
-				<div className='form-control'>
-					<label htmlFor='email'>E-mail</label>
-					<input type='email' id='email' ref={this.emailEl} />
+			<div className='mainContainer'>
+				<div className='titleContainer'>
+					<div className='title'>
+						<Typography variant='h2' component='h2'>
+							{!this.state.isLogin ? 'Sign Up' : 'Login'}
+						</Typography>
+					</div>
+					<Typography className='' variant='h6' component='p'>
+						{this.state.isLogin ? (
+							<mark className='main-body'>
+								You are in <span className='mainBodySpan'> login mode.</span>
+								<br /> You need to have an account before submitting the form below.
+							</mark>
+						) : (
+							<mark className='main-body'>
+								You are in <span className='mainBodySpan'> sign up mode.</span>
+								<br /> Complete the form below to create an account and enjoy EaseEvent completely!
+							</mark>
+						)}
+					</Typography>
 				</div>
-				<div className='form-control'>
-					<label htmlFor='password'>Password</label>
-					<input type='password' id='password' ref={this.passwordEl} />
+				<form className='form-container' onSubmit={this.submitHandler}>
+					<div className='form-control'>
+						<TextInput id='email' label='Email' variant='standard' size='small' color='primary' ref={this.emailEl} type='email' required onChange={this.inputChangeHandler} />
+					</div>
+					<div className='form-control'>
+						<TextInput id='password' label='Password' variant='standard' size='small' color='primary' ref={this.passwordEl} type='password' required onChange={this.inputChangeHandler} />
+					</div>
+					<CustomButton onClick={this.submitHandler}>Submit</CustomButton>
+				</form>
+				<div className='changeButtonContainer'>
+					<CustomButton onClick={this.switchModeHandler}>Switch to {this.state.isLogin ? 'Sign Up' : 'Login'}</CustomButton>
 				</div>
-				<div className='form-actions'>
-					<button type='submit'>Submit</button>
-					<button type='button' onClick={this.switchModeHandler}>
-						Switch to {this.state.isLogin ? 'Sign Up' : 'Login'}
-					</button>
-				</div>
-			</form>
+			</div>
 		);
 	}
 }

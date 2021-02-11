@@ -28,6 +28,8 @@ export default function TextInput(props) {
 			InputProps={{
 				className: classes.input,
 			}}
+			type={props.type || 'text'}
+			required={props.required}
 		/>
 	);
 }

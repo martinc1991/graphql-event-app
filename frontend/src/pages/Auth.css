@@ -1,35 +1,40 @@
-.auth-form {
+.mainContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	/* border: 2px solid red; */
+}
+
+.titleContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	/* border: 2px solid peru; */
+	margin: 0 !important;
+	width: 90vw;
+	max-width: 1200px;
+}
+
+.title {
+	margin-bottom: 20px;
+}
+
+.form-container {
 	width: 25rem;
 	max-width: 80%;
-	margin: 5rem auto;
+	margin-top: 20px;
+	/* border: 2px solid gold; */
 }
 
-.form-control label,
-.form-control input {
-	width: 100%;
-	display: block;
+.form-actions {
+	/* border: 2px solid purple; */
 }
 
-.form-control label {
-	margin-bottom: 0.5rem;
-}
-
-.form-control {
-	margin-bottom: 1rem;
-}
-
-.form-actions button {
-	background-color: darkorange;
-	font: inherit;
-	border: 1px solid darkorange;
-	padding: 0.5rem 1rem;
-	margin-right: 1rem;
-	border-radius: 3px;
-	box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.26);
-}
-
-.form-actions button:hover,
-.form-actions button:active {
-	background-color: orange;
-	border: 1px solid orange;
+.changeButtonContainer {
+	margin-top: 20px;
+	/* border: 2px solid purple; */
 }
