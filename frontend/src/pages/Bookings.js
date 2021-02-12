@@ -2,20 +2,31 @@ import React, { Component } from 'react';
 import BookingList from '../components/Bookings/BookingList/BookingList';
 import Spinner from '../components/Spinner/Spinner';
 import AuthContext from '../context/auth-context';
+// Material UI
+import { Typography } from '@material-ui/core';
+import TextInput from '../components/inputs/TextInput';
+import './Bookings.css';
 
 export default class BookingsPage extends Component {
 	state = {
 		isLoading: false,
 		bookings: [],
+		search: '',
+		filteredBookings: [],
 	};
 
 	static contextType = AuthContext;
+
 	componentDidMount() {
 		this.fetchBookings();
 	}
 
 	fetchBookings = () => {
 		this.setState({ isLoading: true });
+
+		console.log('userId: ' + this.context.userId);
+		console.log('token: ' + this.context.token);
+
 		const requestBody = {
 			query: `
           query {
@@ -25,7 +36,13 @@ export default class BookingsPage extends Component {
 							event {
 								_id
 								title
+								description
 								date
+								price
+								creator {
+        					email
+      					}
+								image
 							}
             }
           }
@@ -49,12 +66,28 @@ export default class BookingsPage extends Component {
 			})
 			.then((resData) => {
 				const bookings = resData.data.bookings;
-				this.setState({ bookings: bookings, isLoading: false });
+				this.setState({ bookings: bookings, filteredBookings: bookings, isLoading: false });
 			})
 			.catch((err) => {
 				console.log(err);
 				this.setState({ isLoading: false });
 			});
+	};
+
+	filterHandler = (e) => {
+		this.setState({ search: e.target.value.trim() });
+		// console.log('this.state.bookings', this.state.bookings);
+		// return;
+		// If the TextInput filter is empty, set filteredBookings equal to bookings
+		if (!e.target.value) {
+			this.setState({ filteredBookings: this.state.bookings });
+		} else {
+			// Filtered bookings
+			let filteredBookings = this.state.bookings.filter((booking) => {
+				return booking.event.title.toLowerCase().includes(e.target.value.trim()) || booking.event.description.toLowerCase().includes(e.target.value.trim());
+			});
+			this.setState({ filteredBookings: filteredBookings });
+		}
 	};
 
 	deleteBookingHandler = (bookingId) => {
@@ -99,6 +132,36 @@ export default class BookingsPage extends Component {
 	};
 
 	render() {
-		return <React.Fragment>{this.state.isLoading ? <Spinner /> : <BookingList bookings={this.state.bookings} onDelete={this.deleteBookingHandler} />}</React.Fragment>;
+		return (
+			<React.Fragment>
+				{this.state.isLoading ? (
+					<Spinner />
+				) : (
+					<div className='bookingsRoot'>
+						<div className='bookingsTitleContainer'>
+							<div className='bookingsTitle'>
+								<Typography variant='h2' component='h2'>
+									Bookings
+								</Typography>
+							</div>
+
+							<Typography className='' variant='h6' component='p'>
+								<mark className='bookingsMainBody'>
+									All the <span className='bookingsMainBodySpan'> events you booked</span> will appear below. Feel free to book as many as you want.
+								</mark>
+							</Typography>
+						</div>
+
+						{/* Filter */}
+						<div className='bookingsFilterContainer'>
+							<TextInput id='outlined-basic' label='Filter bookings' variant='standard' size='small' color='primary' onChange={this.filterHandler} />
+						</div>
+
+						{/* Bookings List */}
+						<BookingList bookings={this.state.filteredBookings} onDelete={this.deleteBookingHandler} />
+					</div>
+				)}
+			</React.Fragment>
+		);
 	}
 }

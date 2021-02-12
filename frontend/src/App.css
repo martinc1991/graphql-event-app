@@ -1,3 +1,20 @@
+::-webkit-scrollbar {
+	display: none;
+}
+
 .main-content {
-	margin: 4rem 2.5rem;
+	/* Hide Scrollbar for IE and Firefox?*/
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+
+	/* background-color: red; */
+	min-height: 100vh;
+	background-image: url('../src/assets/bg1.jpg');
+	background-size: cover;
+	background-attachment: fixed;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	overflow-y: visible;
 }

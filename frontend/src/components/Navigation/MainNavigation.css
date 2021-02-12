@@ -1,21 +1,35 @@
-.main-navigation {
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 3.5rem;
-	background-color: darkorange;
-	padding: 0 1rem;
-	display: flex;
-	align-items: center;
+.root {
+	background-color: transparent;
+	box-shadow: none;
+	padding: 0px;
 }
-.main-navigation__logo h1 {
-	margin: 0;
-	font-size: 1.5rem;
+
+.main-navigation__logo {
+	/* border: 1px solid red; */
+}
+
+.main-navigation__logo a {
+	font-family: 'Hammersmith One';
+	font-size: 2rem;
+	padding: 0px;
+	margin: 0px;
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.links-container {
+	display: flex;
+	width: 100%;
+	flex-direction: row;
+	justify-content: space-between;
+	list-style: none;
+	/* border: 1px solid orange; */
 }
 
 .main-navigation__items {
 	margin: 0 0 0 1.5rem;
+	/* border: 1px solid red; */
 }
 
 .main-navigation__items ul {
@@ -26,14 +40,16 @@
 	align-items: center;
 }
 
-.main-navigation__items li {
+.links {
+	font-family: 'Lora';
+	font-size: 1rem;
 	margin: 0 1rem;
 }
 
 .main-navigation__items a,
 .main-navigation__items button {
 	text-decoration: none;
-	color: black;
+	color: white;
 	border: none;
 	font: inherit;
 	background: transparent;
@@ -46,5 +62,34 @@
 .main-navigation__items a.active,
 .main-navigation__items button:hover,
 .main-navigation__items button:active {
+	color: darkorange;
+	text-decoration: underline;
+}
+
+.auth-container a {
+	text-decoration: none;
 	color: white;
+}
+
+.auth-container a:hover {
+	color: darkorange;
+}
+
+.auth-container a:hover,
+.auth-container a:active,
+.auth-container a.active,
+.auth-container button:hover,
+.auth-container button:active {
+	color: darkorange;
+	text-decoration: underline;
+}
+
+.links button {
+	text-decoration: none;
+	color: white;
+	border: none;
+	font: inherit;
+	background: transparent;
+	cursor: pointer;
+	margin: 0;
 }

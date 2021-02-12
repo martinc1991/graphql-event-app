@@ -1,4 +1,4 @@
-.root {
+.bookingsRoot {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
@@ -23,7 +23,7 @@
 	align-items: center;
 }
 
-.title-container {
+.bookingsTitleContainer {
 	margin-top: 70px;
 	/* border: 1px solid red; */
 	display: flex;
@@ -32,16 +32,17 @@
 	max-width: 800px;
 }
 
-.title {
+.bookingsTitle {
 	/* border: 1px solid red; */
 	text-align: center;
+	margin-bottom: 20px;
 }
 
-.main-body {
+.bookingsMainBody {
 	background-color: white;
 }
 
-.mainBodySpan {
+.bookingsMainBodySpan {
 	color: darkorange;
 }
 
@@ -57,20 +58,7 @@
 	/* border: 2px solid cyan; */
 }
 
-.createEventTextContainer {
-	/* border: 1px solid red; */
-	width: 100%;
-}
-.createEventButtonContainer {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	margin-top: 20px;
-	/* border: 1px solid red; */
-}
-
-.filter-container {
+.bookingsFilterContainer {
 	display: flex;
 	justify-content: center;
 	align-items: center;
