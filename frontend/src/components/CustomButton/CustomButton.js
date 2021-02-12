@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
 	button: {
 		cursor: 'pointer',
 		display: 'inline-block',
-		backgroundColor: 'darkorange',
+		backgroundColor: theme.palette.primary.main,
 		fontSize: '1.1rem',
 		color: 'white',
 		fontFamily: 'Lora',

@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 import logo from '../assets/easy-event-logo.png';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	root: {
 		display: 'flex',
 		flexDirection: 'column',
@@ -34,12 +34,13 @@ const useStyles = makeStyles({
 		fontSize: '1.5rem',
 	},
 	mainBodySpan: {
-		color: 'darkorange',
+		color: theme.palette.primary.main,
 		backgroundColor: 'white',
 		fontFamily: 'Lora',
 		fontSize: '1.5rem',
 	},
-});
+}));
+
 export default function HomePage() {
 	const classes = useStyles();
 	return (

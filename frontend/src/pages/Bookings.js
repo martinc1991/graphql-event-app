@@ -5,6 +5,7 @@ import AuthContext from '../context/auth-context';
 // Material UI
 import { Typography } from '@material-ui/core';
 import TextInput from '../components/inputs/TextInput';
+import './Bookings.css';
 
 export default class BookingsPage extends Component {
 	state = {
@@ -136,23 +137,23 @@ export default class BookingsPage extends Component {
 				{this.state.isLoading ? (
 					<Spinner />
 				) : (
-					<div className='root'>
-						<div className='title-container'>
-							<div className='title'>
+					<div className='bookingsRoot'>
+						<div className='bookingsTitleContainer'>
+							<div className='bookingsTitle'>
 								<Typography variant='h2' component='h2'>
 									Bookings
 								</Typography>
 							</div>
 
 							<Typography className='' variant='h6' component='p'>
-								<mark className='main-body'>
-									All the <span className='mainBodySpan'> events you booked</span> will appear below. Feel free to book as many as you want.
+								<mark className='bookingsMainBody'>
+									All the <span className='bookingsMainBodySpan'> events you booked</span> will appear below. Feel free to book as many as you want.
 								</mark>
 							</Typography>
 						</div>
 
 						{/* Filter */}
-						<div className='filter-container'>
+						<div className='bookingsFilterContainer'>
 							<TextInput id='outlined-basic' label='Filter bookings' variant='standard' size='small' color='primary' onChange={this.filterHandler} />
 						</div>
 
