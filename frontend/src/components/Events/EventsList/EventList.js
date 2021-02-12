@@ -1,10 +1,8 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
 import EventItem from '../EventItem/EventItem';
 import './EventList.css';
-import { GridList } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -28,7 +26,7 @@ export default function EventList(props) {
 
 	// events array
 	const events = props.events.map((event) => {
-		return <EventItem key={event._id} eventId={event._id} title={event.title} description={event.description} userId={props.authUserId} creatorId={event.creator._id} creatorEmail={event.creator.email} price={event.price} date={event.date} image={event.image} onDetail={props.onViewDetails} />;
+		return <EventItem key={event._id} eventId={event._id} title={event.title} description={event.description} userId={props.authUserId} creatorId={event.creator._id} creatorEmail={event.creator.email} price={event.price} date={event.date} image={event.image} />;
 	});
 
 	return (

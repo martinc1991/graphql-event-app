@@ -30,6 +30,9 @@ export default function TextInput(props) {
 			}}
 			type={props.type || 'text'}
 			required={props.required}
+			multiline={props.multiline || false}
+			rows={props.rows}
+			rowsMax={props.rowsMax}
 		/>
 	);
 }

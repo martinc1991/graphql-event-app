@@ -1,26 +1,19 @@
 import React, { Component } from 'react';
-import Modal from '../components/Modals/Modal';
-import Backdrop from '../components/Backdrop/Backdrop.js';
-import './Events.css';
-import AuthContext from '../context/auth-context';
-import EventList from '../components/Events/EventsList/EventList';
-import Spinner from '../components/Spinner/Spinner';
-import axios from 'axios';
-// Cloudinary
-import { Image, Transformation, CloudinaryContext, Placeholder } from 'cloudinary-react';
 // Material UI
-import TextField from '@material-ui/core/TextField';
 import { Typography } from '@material-ui/core';
+// Components
+import EventList from '../components/Events/EventsList/EventList';
 import TextInput from '../components/inputs/TextInput';
+import CreateEventModal from '../components/Modals/CreateEventModal/CreateEventModal.js';
+import Spinner from '../components/Spinner/Spinner';
+import './Events.css';
+// AuthContext;
+import AuthContext from '../context/auth-context';
 
 export default class EventsPage extends Component {
 	state = {
-		creating: false,
 		events: [],
 		isLoading: false,
-		selectedEvent: null,
-		file: null,
-		// Event filtering
 		search: '',
 		filteredEvents: [],
 		fileSelected: false,
@@ -31,177 +24,11 @@ export default class EventsPage extends Component {
 	static contextType = AuthContext;
 	constructor(props) {
 		super(props);
-		this.titleElRef = React.createRef();
-		this.priceElRef = React.createRef();
-		this.dateElRef = React.createRef();
-		this.descriptionElRef = React.createRef();
-		this.imageElRef = React.createRef();
 	}
 
 	componentDidMount() {
 		this.fetchEvents();
 	}
-
-	startCreateEventHandler = () => {
-		this.setState({ creating: true });
-	};
-
-	// Upload image handler
-	onChangeFile = (e) => {
-		this.setState({ file: e.target.files[0] });
-	};
-
-	onFormSubmit = (e) => {
-		e.preventDefault();
-
-		const title = this.titleElRef.current.value;
-		const price = +this.priceElRef.current.value;
-		const date = this.dateElRef.current.value;
-		const description = this.descriptionElRef.current.value;
-
-		const formData = new FormData();
-
-		const token = this.context.token;
-		console.log(this.state.file);
-		if (this.state.file) {
-			formData.append('eventImage', this.state.file);
-		} else {
-			formData.append('eventImage', 'No image');
-		}
-		formData.append('title', title);
-		formData.append('description', description);
-		formData.append('price', price);
-		formData.append('date', date);
-		formData.append('token', 'Bearer ' + token);
-
-		const config = {
-			headers: {
-				'content-type': 'multipart/form-data',
-				Authorization: 'Bearer ' + token,
-			},
-		};
-
-		axios
-			.post('http://localhost:8000/graphql', formData, config)
-			.then((res) => {
-				if (res.status !== 200 && res.status !== 201) {
-					throw new Error('Failed with status: ' + res.status);
-				}
-				return res.data.data.createEvent;
-			})
-			.then((resData) => {
-				console.log('RESDATA: ', resData);
-				console.log('BEFORE', this.state.events);
-				this.setState((prevState) => {
-					const updatedEvents = [...prevState.events];
-					updatedEvents.push({
-						_id: resData._id,
-						title: resData.title,
-						description: resData.description,
-						date: resData.date,
-						price: resData.price,
-						image: resData.image,
-						creator: {
-							_id: this.context.userId,
-						},
-					});
-					return { events: updatedEvents, filteredEvents: updatedEvents }; // this semicolon is SUPER important
-				});
-
-				console.log('AFTER', this.state.events);
-
-				alert('Event created successfully!');
-
-				this.setState({ creating: false });
-			})
-			.catch((err) => {
-				console.log('CATCH DEL FRONT');
-				console.log(err);
-			});
-	};
-
-	// Format submit handler
-	modalConfirmHandler = (e) => {
-		e.preventDefault();
-
-		this.setState({ creating: false });
-		const title = this.titleElRef.current.value;
-		const price = +this.priceElRef.current.value;
-		const date = this.dateElRef.current.value;
-		const description = this.descriptionElRef.current.value;
-		// const image = this.state.file;
-
-		const formData = new FormData();
-
-		if (title.trim().length === 0 || price <= 0 || date.trim().length === 0 || description.trim().length === 0) {
-			return;
-		}
-
-		const requestBody = {
-			query: `
-          mutation CreateEvent($titleParameter: String!, $descriptionParameter: String!, $priceParameter: Float!, $dateParameter: String!) {
-            createEvent(eventInput: {title: $titleParameter, description: $descriptionParameter, price: $priceParameter, date: $dateParameter}) {
-              _id
-              title
-              description
-              date
-              price
-            }
-          }
-				`,
-			variables: {
-				titleParameter: title,
-				descriptionParameter: description,
-				priceParameter: price,
-				dateParameter: date,
-			},
-		};
-
-		formData.append('eventImage', this.state.file);
-
-		formData.append('body', requestBody);
-
-		const token = this.context.token;
-
-		fetch('http://localhost:8000/graphql', {
-			method: 'POST',
-			body: JSON.stringify(requestBody),
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + token,
-			},
-		})
-			.then((res) => {
-				if (res.status !== 200 && res.status !== 201) {
-					throw new Error('Failed with status: ' + res.status);
-				}
-				return res.json();
-			})
-			.then((resData) => {
-				this.setState((prevState) => {
-					const updatedEvents = [...prevState.events];
-					updatedEvents.push({
-						_id: resData.data.createEvent._id,
-						title: resData.data.createEvent.title,
-						description: resData.data.createEvent.description,
-						date: resData.data.createEvent.date,
-						price: resData.data.createEvent.price,
-						creator: {
-							_id: this.context.userId,
-						},
-					});
-					return { events: updatedEvents }; // this semicolon is SUPER important
-				});
-			})
-			.catch((err) => {
-				console.log('CATCH DEL FRONT');
-				console.log(err);
-			});
-	};
-
-	modalCancelHandler = () => {
-		this.setState({ creating: false, selectedEvent: null });
-	};
 
 	fetchEvents = () => {
 		this.setState({ isLoading: true });
@@ -251,63 +78,12 @@ export default class EventsPage extends Component {
 			});
 	};
 
-	showDetailHandler = (eventId) => {
-		this.setState((prevState) => {
-			const selectedEvent = prevState.events.find((e) => e._id === eventId);
-			return { selectedEvent: selectedEvent };
-		});
-	};
-
-	bookEventHandler = () => {
-		if (!this.context.token) {
-			this.setState({ selectedEvent: null });
-			return;
-		}
-
-		const requestBody = {
-			query: `
-          mutation BookEvent($idParameter: ID!) {
-            bookEvent(eventId: $idParameter) {
-              _id
-							createdAt
-							updatedAt
-            }
-          }
-				`,
-			variables: {
-				idParameter: this.state.selectedEvent._id,
-			},
-		};
-
-		fetch('http://localhost:8000/graphql', {
-			method: 'POST',
-			body: JSON.stringify(requestBody),
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + this.context.token,
-			},
-		})
-			.then((res) => {
-				if (res.status !== 200 && res.status !== 201) {
-					throw new Error('Failed!');
-				}
-				return res.json();
-			})
-			.then((resData) => {
-				this.setState({ selectedEvent: null });
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	};
-
 	componentWillUnmount() {
 		this.isActive = false;
 	}
 
 	filterHandler = (e) => {
 		this.setState({ search: e.target.value.trim() });
-
 		// If the TextInput filter is empty, set filteredEvents equal to events
 		if (!e.target.value) {
 			this.setState({ filteredEvents: this.state.events });
@@ -323,62 +99,6 @@ export default class EventsPage extends Component {
 	render() {
 		return (
 			<React.Fragment>
-				{(this.state.creating || this.state.selectedEvent) && <Backdrop />}
-				{this.state.creating && (
-					<Modal title='Add Event' canCancel canConfirm={this.state.fileSelected} onCancel={this.modalCancelHandler} onConfirm={this.onFormSubmit}>
-						{/* <Modal title='Add Event' canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.modalConfirmHandler}> */}
-						{/* Modal Content */}
-						<form action='' encType='multipart/form-data'>
-							<div className='form-control'>
-								<label htmlFor='title'>Title</label>
-								<input type='text' name='title' id='title' ref={this.titleElRef} />
-							</div>
-							<div className='form-control'>
-								<label htmlFor='price'>Price</label>
-								<input type='number' name='price' id='price' ref={this.priceElRef} />
-							</div>
-							<div className='form-control'>
-								<label htmlFor='date'>Date</label>
-								<input type='datetime-local' name='date' id='date' ref={this.dateElRef} />
-							</div>
-							<div className='form-control'>
-								<label htmlFor='description'>Description</label>
-								<textarea name='description' id='description' rows='4' ref={this.descriptionElRef} />
-							</div>
-							<div className='form-control'>
-								<label htmlFor='description'>Image</label>
-								<input
-									type='file'
-									name='eventImage'
-									onChange={this.onChangeFile}
-									accept='image/x-png,image/gif,image/jpeg'
-									onChange={(e) => this.setState({ fileSelected: !!e.target.value })}
-									// ref={this.imageElRef}
-								/>
-							</div>
-						</form>
-					</Modal>
-				)}
-				{this.state.selectedEvent && (
-					<Modal title={this.state.selectedEvent.title} canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.bookEventHandler} confirmText={this.context.token ? 'Book' : 'Confirm'}>
-						<h1>{this.state.selectedEvent.title}</h1>
-						<h2>
-							${Number.parseFloat(this.state.selectedEvent.price).toFixed(2)} - {new Date(this.state.selectedEvent.date).toLocaleDateString()}
-						</h2>
-						<p>{this.state.selectedEvent.description}</p>
-						<Image cloudName='graphql-events-app' publicId={this.state.selectedEvent.image} width='400'>
-							<Placeholder type='pixelate' />
-						</Image>
-					</Modal>
-				)}
-				{this.context.token && (
-					<div className='events-control'>
-						<p>Share your own events!</p>
-						<button className='btn' onClick={this.startCreateEventHandler}>
-							Create Event
-						</button>
-					</div>
-				)}
 				{this.state.isLoading ? (
 					<div className='root-only-spinner'>
 						<Spinner />
@@ -391,17 +111,34 @@ export default class EventsPage extends Component {
 									Events
 								</Typography>
 							</div>
+
 							<Typography className='' variant='h6' component='p'>
 								<mark className='main-body'>
 									Feel free to <span className='mainBodySpan'> look up for the event you want</span> without having to sing up (you will have to sign up to book them although).
 								</mark>
 							</Typography>
 						</div>
+
+						{this.context.token && (
+							<div className='createEventContainer'>
+								<div className='createEventTextContainer'>
+									<Typography className='' variant='h6' component='p'>
+										<mark className='main-body'>
+											Or create <span className='mainBodySpan'> you own event</span> and share it with everybody!
+										</mark>
+									</Typography>
+								</div>
+								<div className='createEventButtonContainer'>
+									{/* <CustomButton onClick={this.startCreateEventHandler}>Create Event</CustomButton> */}
+									<CreateEventModal eventId={'eventId'} title={'title'} description={'props.description'} userId={'props.userId'} creatorId={'props.creatorId'} creatorEmail={'props.creatorEmail'} price={17} date={'props.date'} image={'props.image'}></CreateEventModal>
+								</div>
+							</div>
+						)}
 						<div className='filter-container'>
 							<TextInput id='outlined-basic' label='Filter events' variant='standard' size='small' color='primary' onChange={this.filterHandler} />
 						</div>
 						{/* EventList */}
-						{this.state.filteredEvents.length > 0 ? <EventList events={this.state.filteredEvents.length > 0 ? this.state.filteredEvents : []} authUserId={this.context.userId} onViewDetails={this.showDetailHandler} /> : <Typography variant='h4'>None of our events matches the filter you entered</Typography>}
+						{this.state.filteredEvents.length > 0 ? <EventList events={this.state.filteredEvents.length > 0 ? this.state.filteredEvents : []} authUserId={this.context.userId} /> : <Typography variant='h4'>None of our events matches the filter you entered. Please try again.</Typography>}
 					</div>
 				)}
 			</React.Fragment>

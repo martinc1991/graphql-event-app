@@ -157,7 +157,7 @@ export default function DetailsModal(props) {
 
 	// console.log('props.creatorId = ', props.creatorId);
 	// console.log('authContext.userId = ', authContext.userId);
-	console.log(authContext.userId === props.creatorId, props.title);
+	// console.log(authContext.userId === props.creatorId, props.title);
 
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
@@ -176,7 +176,7 @@ export default function DetailsModal(props) {
 			return;
 		}
 
-		console.log('REQUEST PROPS', props);
+		// console.log('REQUEST PROPS', props);
 
 		const requestBody = {
 			query: `
