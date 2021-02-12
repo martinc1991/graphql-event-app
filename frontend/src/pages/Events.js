@@ -129,7 +129,7 @@ export default class EventsPage extends Component {
 									</Typography>
 								</div>
 								<div className='createEventButtonContainer'>
-									{/* <CustomButton onClick={this.startCreateEventHandler}>Create Event</CustomButton> */}
+									{/* Create Event Modal */}
 									<CreateEventModal eventId={'eventId'} title={'title'} description={'props.description'} userId={'props.userId'} creatorId={'props.creatorId'} creatorEmail={'props.creatorEmail'} price={17} date={'props.date'} image={'props.image'}></CreateEventModal>
 								</div>
 							</div>

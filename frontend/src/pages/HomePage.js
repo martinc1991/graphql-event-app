@@ -49,7 +49,7 @@ export default function HomePage() {
 				{/* <h1 className={classes.mainTitle}>EasyEvent</h1> */}
 				<img src={logo} alt='' height={100} />
 				<p className={classes.mainBody}>
-					The Events Application that makes it <span className={classes.mainBodySpan}>easy to arrange an event!</span>
+					The Events Application that makes it <span className={classes.mainBodySpan}>easy to arrange an event.</span>
 				</p>
 			</div>
 		</div>

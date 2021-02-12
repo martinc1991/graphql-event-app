@@ -11,7 +11,6 @@ import Typography from '@material-ui/core/Typography';
 import ShareIcon from '@material-ui/icons/Share';
 import React from 'react';
 import DetailsModal from '../../Modals/DetailsModal/DetailsModal.js';
-import './EventItem.css';
 
 const imagePlaceholderUrl = 'https://res.cloudinary.com/graphql-events-app/image/upload/v1612888691/graphql-events-app/placeholder_bs9x8v.png';
 

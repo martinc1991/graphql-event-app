@@ -222,7 +222,7 @@ export default function DetailsModal(props) {
 			{/* Button to open the modal */}
 			<Typography>
 				<a type='button' onClick={handleOpen} className={classes.moreInfoButton}>
-					+ More Info
+					{props.children ? props.children : '+ More Info'}
 				</a>
 			</Typography>
 

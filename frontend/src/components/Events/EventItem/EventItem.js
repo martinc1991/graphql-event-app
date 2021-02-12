@@ -11,7 +11,6 @@ import Typography from '@material-ui/core/Typography';
 import ShareIcon from '@material-ui/icons/Share';
 import React from 'react';
 import DetailsModal from '../../Modals/DetailsModal/DetailsModal.js';
-import './EventItem.css';
 
 const imagePlaceholderUrl = 'https://res.cloudinary.com/graphql-events-app/image/upload/v1612888691/graphql-events-app/placeholder_bs9x8v.png';
 
@@ -149,7 +148,7 @@ export default function EventItem(props) {
 						{/* <Typography className={classes.moreInfo} onClick={props.onDetail.bind(this, props.eventId)}>
 							+ More info
 						</Typography> */}
-						<DetailsModal eventId={props.eventId} title={props.title} description={props.description} userId={props.userId} creatorId={props.creatorId} creatorEmail={props.creatorEmail} price={props.price} date={props.date} image={props.image}></DetailsModal>
+						<DetailsModal eventId={props.eventId} title={props.title} description={props.description} creatorId={props.creatorId} creatorEmail={props.creatorEmail} price={props.price} date={props.date} image={props.image}></DetailsModal>
 					</div>
 				</CardActions>
 			</Card>
