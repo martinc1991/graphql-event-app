@@ -1,16 +1,13 @@
-import './App.css';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { Component } from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import AuthPage from './pages/Auth';
-import EventsPage from './pages/Events';
-import BookingsPage from './pages/Bookings';
-import HomePage from './pages/HomePage';
+import './App.css';
 import MainNavigation from './components/Navigation/MainNavigation';
 import AuthContext from './context/auth-context.js';
-import './App.css';
-import { Component } from 'react';
-// Material UI
-import { makeStyles } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/core/styles';
+import AuthPage from './pages/Auth';
+import BookingsPage from './pages/Bookings';
+import EventsPage from './pages/Events';
+import HomePage from './pages/HomePage';
 import theme from './theme/theme';
 
 class App extends Component {

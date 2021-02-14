@@ -109,11 +109,9 @@ export default class AuthPage extends Component {
 			<div className='mainContainer'>
 				<div className='titleContainer'>
 					<div className='title'>
-						<Typography variant='h2' component='h2'>
-							{!this.state.isLogin ? 'Sign Up' : 'Login'}
-						</Typography>
+						<Typography variant='h2'>{!this.state.isLogin ? 'Sign Up' : 'Login'}</Typography>
 					</div>
-					<Typography className='' variant='h6' component='p'>
+					<Typography className='' variant='h6'>
 						{this.state.isLogin ? (
 							<mark className='main-body'>
 								You are in <span className='mainBodySpan'> login mode.</span>

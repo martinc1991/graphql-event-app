@@ -24,8 +24,8 @@ export default class BookingsPage extends Component {
 	fetchBookings = () => {
 		this.setState({ isLoading: true });
 
-		console.log('userId: ' + this.context.userId);
-		console.log('token: ' + this.context.token);
+		// console.log('userId: ' + this.context.userId);
+		// console.log('token: ' + this.context.token);
 
 		const requestBody = {
 			query: `
@@ -140,12 +140,10 @@ export default class BookingsPage extends Component {
 					<div className='bookingsRoot'>
 						<div className='bookingsTitleContainer'>
 							<div className='bookingsTitle'>
-								<Typography variant='h2' component='h2'>
-									Bookings
-								</Typography>
+								<Typography variant='h2'>Bookings</Typography>
 							</div>
 
-							<Typography className='' variant='h6' component='p'>
+							<Typography className='' variant='h6'>
 								<mark className='bookingsMainBody'>
 									All the <span className='bookingsMainBodySpan'> events you booked</span> will appear below. Feel free to book as many as you want.
 								</mark>

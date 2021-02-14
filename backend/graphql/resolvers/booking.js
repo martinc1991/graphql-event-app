@@ -10,13 +10,16 @@ module.exports = {
 		}
 		try {
 			const bookings = await Booking.find({ user: req.userId });
-			return bookings.map((booking) => {
+			return bookings.map((booking, i) => {
 				return transformBooking(booking);
 			});
 		} catch (err) {
+			console.log('Error del catch del back');
+			console.log(err);
 			throw err;
 		}
 	},
+
 	bookEvent: async (args, req) => {
 		// Protects this resolver from unauthenticated requests (check middlewares/is-auth.js)
 		if (!req.isAuth) {
@@ -31,7 +34,6 @@ module.exports = {
 		});
 
 		const result = await booking.save();
-
 		return transformBooking(result);
 	},
 

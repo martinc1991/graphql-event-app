@@ -242,12 +242,8 @@ export default function DetailsModal(props) {
 				return res.data.data.createEvent;
 			})
 			.then((resData) => {
-				console.log('RESDATA: ', resData);
-
 				alert('Event created successfully!');
-
 				setOpen(false);
-
 				history.push('/'); // for now
 			})
 			.catch((err) => {

@@ -117,7 +117,7 @@ export default function EventItem(props) {
 				<CardMedia className={classes.media} image={props.image ? props.image : imagePlaceholderUrl} title={props.title} />
 			</div>
 			<CardContent className={classes.descriptionContainer}>
-				<Typography variant='body1' component='p' className={classes.descriptionText}>
+				<Typography variant='body1' className={classes.descriptionText}>
 					{props.description.length > 120 ? props.description.substring(0, 140) + '...' : props.description}
 				</Typography>
 			</CardContent>

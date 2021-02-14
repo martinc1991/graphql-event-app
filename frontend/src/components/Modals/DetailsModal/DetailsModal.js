@@ -1,20 +1,17 @@
-import React, { useContext } from 'react';
-import AuthContext from '../../../context/auth-context.js';
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Modal, Backdrop, Card, Avatar } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-import CustomButton from '../../CustomButton/CustomButton.js';
-import CardHeader from '@material-ui/core/CardHeader';
-import IconButton from '@material-ui/core/IconButton';
-import CardMedia from '@material-ui/core/CardMedia';
+import { Avatar, Backdrop, Card, Modal, Typography } from '@material-ui/core';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
+import CardMedia from '@material-ui/core/CardMedia';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles';
 // Icons
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
 import GradeIcon from '@material-ui/icons/Grade';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import ShareIcon from '@material-ui/icons/Share';
+import React, { useContext } from 'react';
+import AuthContext from '../../../context/auth-context.js';
+import CustomButton from '../../CustomButton/CustomButton.js';
 
 const imagePlaceholderUrl = 'https://res.cloudinary.com/graphql-events-app/image/upload/v1612888691/graphql-events-app/placeholder_bs9x8v.png';
 
@@ -260,20 +257,20 @@ export default function DetailsModal(props) {
 					<CardContent className={classes.cardContentContainer}>
 						<Grid container>
 							<Grid item xs={12} md={5} className={classes.leftColumn}>
-								<Typography variant='body1' component='p' className={classes.infoTextBlock}>
+								<Typography variant='body1' className={classes.infoTextBlock}>
 									<b>Creator: </b>
 									{props.creatorEmail}
 								</Typography>
-								<Typography variant='body1' component='p' className={classes.infoTextBlock}>
+								<Typography variant='body1' className={classes.infoTextBlock}>
 									<b>Date: </b>
 									{new Date(props.date).toLocaleDateString('en-US', { dateStyle: 'full' }) + ' at ' + new Date(props.date).toTimeString().substr(0, 5)}
 								</Typography>
-								<Typography variant='body1' component='p' className={classes.infoTextBlock}>
+								<Typography variant='body1' className={classes.infoTextBlock}>
 									<b>Description: </b>
 									{props.description}
 									{/* {props.description + props.description + props.description} */}
 								</Typography>
-								<Typography variant='body1' component='p' className={classes.infoTextBlock}>
+								<Typography variant='body1' className={classes.infoTextBlock}>
 									<b>Price: </b>
 									<span className={classes.price}>{props.price ? '$ ' + props.price.toFixed(2) : 'Free'}</span>
 								</Typography>
