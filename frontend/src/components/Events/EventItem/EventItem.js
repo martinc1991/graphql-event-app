@@ -124,9 +124,7 @@ export default function EventItem(props) {
 					<CardMedia className={classes.media} image={props.image ? props.image : imagePlaceholderUrl} title={props.title} />
 				</div>
 				<CardContent className={classes.descriptionContainer}>
-					<Typography variant='body1' component='p'>
-						{props.description.length > 120 ? props.description.substring(0, 140) + '...' : props.description}
-					</Typography>
+					<Typography variant='body1'>{props.description.length > 120 ? props.description.substring(0, 140) + '...' : props.description}</Typography>
 				</CardContent>
 				{/* Price */}
 				<CardActions disableSpacing className={classes.cardPrice}>

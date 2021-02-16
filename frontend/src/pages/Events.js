@@ -107,12 +107,10 @@ export default class EventsPage extends Component {
 					<div className='root'>
 						<div className='title-container'>
 							<div className='title'>
-								<Typography variant='h2' component='h2'>
-									Events
-								</Typography>
+								<Typography variant='h2'>Events</Typography>
 							</div>
 
-							<Typography className='' variant='h6' component='p'>
+							<Typography className='' variant='h6'>
 								<mark className='main-body'>
 									Feel free to <span className='mainBodySpan'> look up for the event you want</span> without having to sing up (you will have to sign up to book them although).
 								</mark>
@@ -122,7 +120,7 @@ export default class EventsPage extends Component {
 						{this.context.token && (
 							<div className='createEventContainer'>
 								<div className='createEventTextContainer'>
-									<Typography className='' variant='h6' component='p'>
+									<Typography className='' variant='h6'>
 										<mark className='main-body'>
 											Or create <span className='mainBodySpan'> you own event</span> and share it with everybody!
 										</mark>
