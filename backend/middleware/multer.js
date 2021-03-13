@@ -20,7 +20,8 @@ module.exports = async (req, res, next) => {
 		// Read file from upload folder
 		const filesRead = fs.readdirSync(__dirname + '/uploads');
 
-		let publicID = 'graphql-events-app/' + title.replace(/ /g, '-') + '-' + Math.round(Math.random() * 10e10); // title + random number (/ /g means "match every ' ' character")
+		const publicID = 'graphql-events-app/' + title.replace(/ /g, '-') + '-' + Math.round(Math.random() * 10e10); // title + random number (/ /g means "match every ' ' character")
+		console.log('publicID: ', publicID);
 
 		let uploadedImage;
 
