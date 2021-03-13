@@ -203,16 +203,10 @@ export default function DetailsModal(props) {
 	};
 
 	const onFormSubmit = (e) => {
+		// This method sends a request to 'http://localhost:8000/graphql' without using graphql. This is because when an image is in the request, the multerMiddleware catches this request, processes it and THEN send a mutation to graphql
+
 		e.preventDefault();
-
-		const title = formData.title;
-		const price = +formData.value;
-		const date = formData.date;
-		const description = formData.description;
-		const file = formData.file;
-
 		const formDataToSend = new FormData();
-
 		const token = authContext.token;
 
 		if (formData.file) {
@@ -270,8 +264,7 @@ export default function DetailsModal(props) {
 				BackdropComponent={Backdrop}
 				BackdropProps={{
 					timeout: 500,
-				}}
-			>
+				}}>
 				<Card className={classes.modalContainer}>
 					{/* Card Middle */}
 					<CardContent className={classes.cardContentContainer}>
@@ -336,9 +329,6 @@ export default function DetailsModal(props) {
 								</div>
 							</Grid>
 							<Grid item xs={12} md={5} className={classes.rightColumn}>
-								{/* <Typography variant='h5' color='primary'>
-									Preview
-								</Typography> */}
 								<PreviewEventItem title={formData.title.length > 0 ? formData.title : 'Title of the Event'} description={formData.description.length > 0 ? formData.description : 'Your description text will be shown here.'} price={formData.price} date={formData.date} image={imagePlaceholderUrl} />
 							</Grid>
 						</Grid>

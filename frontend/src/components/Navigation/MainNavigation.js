@@ -50,6 +50,13 @@ export default function MainNavigation(props) {
 												</NavLink>
 											</li>
 										)}
+										{context.token && (
+											<li className='links'>
+												<NavLink to='/myevents' exact={true}>
+													My Events
+												</NavLink>
+											</li>
+										)}
 									</ul>
 								</nav>
 								<div className='auth-container'>

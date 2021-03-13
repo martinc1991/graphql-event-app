@@ -1,0 +1,83 @@
+.eventsRoot {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	/* border: 2px solid white; */
+	border-radius: 20px;
+	margin-top: 60px;
+	margin-bottom: 30px;
+	padding-bottom: 50px !important;
+	min-height: 85vh;
+	width: 90%;
+	max-width: 1400px;
+}
+
+.root-only-spinner {
+	border-radius: 20px;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.eventsTitleContainer {
+	margin-top: 70px;
+	/* border: 1px solid red; */
+	display: flex;
+	flex-direction: column;
+	width: 60%;
+	max-width: 800px;
+}
+
+.eventsTitle {
+	/* border: 1px solid red; */
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.eventsMainBody {
+	background-color: white;
+}
+
+.eventsMainBodySpan {
+	color: darkorange;
+}
+
+.createEventContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 60%;
+	max-width: 1300px;
+	margin-top: 20px;
+	margin-bottom: 40px;
+	/* border: 2px solid cyan; */
+}
+
+.eventsFilterContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: white;
+	/* border: 1px solid red; */
+	margin: 20px 0px;
+	width: 400px;
+	height: 60px;
+	padding: 0px 20px 5px 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.title .events-control {
+	text-align: center;
+	border: 1px solid darkorange;
+	padding: 1rem;
+	margin: 2rem auto;
+	width: 30rem;
+	max-width: 80%;
+}
