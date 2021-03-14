@@ -1,0 +1,11 @@
+{
+	"env": {
+		"MONGO_USER": "yourMongoUserHere",
+		"MONGO_PASSWORD": "yourMongoPasswordHere",
+		"MONGO_DBNAME": "yourMongoDBNameHere",
+		"PORT": 8000,
+		"CLOUDINARY_NAME": "yourCloudinaryNameHere",
+		"CLOUDINARY_API_KEY": "yourCloudinaryApiKeyHere",
+		"CLOUDINARY_API_SECRET": "yourCloudinaryApiSecretHere"
+	}
+}
