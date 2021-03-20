@@ -160,6 +160,8 @@ export default function DetailsModal(props) {
 		file: '',
 	});
 
+	const [imageUrlFromInput, setImageUrlFromInput] = useState(null);
+
 	const history = useHistory();
 
 	// AuthContext
@@ -194,6 +196,19 @@ export default function DetailsModal(props) {
 				...formData,
 				[e.target.id]: e.target.files[0],
 			});
+			// Preview image from file input
+			const file = document.querySelector('input[type=file]').files[0];
+			const reader = new FileReader();
+			reader.addEventListener(
+				'load',
+				function () {
+					setImageUrlFromInput(reader.result);
+				},
+				false
+			);
+			if (file) {
+				reader.readAsDataURL(file);
+			}
 		} else {
 			setFormData({
 				...formData,
@@ -329,7 +344,7 @@ export default function DetailsModal(props) {
 								</div>
 							</Grid>
 							<Grid item xs={12} md={5} className={classes.rightColumn}>
-								<PreviewEventItem title={formData.title.length > 0 ? formData.title : 'Title of the Event'} description={formData.description.length > 0 ? formData.description : 'Your description text will be shown here.'} price={formData.price} date={formData.date} image={imagePlaceholderUrl} />
+								<PreviewEventItem title={formData.title.length > 0 ? formData.title : 'Title of the Event'} description={formData.description.length > 0 ? formData.description : 'Your description text will be shown here.'} price={formData.price} date={formData.date} image={imageUrlFromInput || imagePlaceholderUrl} />
 							</Grid>
 						</Grid>
 					</CardContent>

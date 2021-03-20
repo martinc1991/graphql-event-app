@@ -116,6 +116,7 @@ export default class AuthPage extends Component {
 							<mark className='main-body'>
 								You are in <span className='mainBodySpan'> login mode.</span>
 								<br /> You need to have an account before submitting the form below.
+								<br /> Press <span className='mainBodySpan'>Switch to Sign Up</span> if you don't have an account yet.
 							</mark>
 						) : (
 							<mark className='main-body'>
@@ -124,6 +125,9 @@ export default class AuthPage extends Component {
 							</mark>
 						)}
 					</Typography>
+				</div>
+				<div className='changeButtonContainer'>
+					<CustomButton onClick={this.switchModeHandler}>Switch to {this.state.isLogin ? 'Sign Up' : 'Login'}</CustomButton>
 				</div>
 				<form className='form-container' onSubmit={this.submitHandler}>
 					<div className='form-control'>
@@ -134,9 +138,6 @@ export default class AuthPage extends Component {
 					</div>
 					<CustomButton onClick={this.submitHandler}>Submit</CustomButton>
 				</form>
-				<div className='changeButtonContainer'>
-					<CustomButton onClick={this.switchModeHandler}>Switch to {this.state.isLogin ? 'Sign Up' : 'Login'}</CustomButton>
-				</div>
 			</div>
 		);
 	}

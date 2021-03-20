@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Middlewares
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', '*');
@@ -60,7 +60,7 @@ mongoose
 	.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.rkwr6.mongodb.net/${process.env.MONGO_DBNAME}?retryWrites=true&w=majority`, { useUnifiedTopology: true, useNewUrlParser: true })
 	.then(() => {
 		app.listen(process.env.PORT, () => {
-			console.log(`Listening on PORT ${process.env.PORT}`);
+			console.log('\x1b[36m%s\x1b[0m', `Listening on PORT ${process.env.PORT} ( http://localhost:${process.env.PORT} )`);
 		});
 		console.log('DB Connected');
 	})
